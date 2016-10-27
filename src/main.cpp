@@ -43,7 +43,7 @@ int main (int argc, char *argv[]){
 
 	 nodes.push_back(node1);
 	 nodes.push_back(reg1);
-
+	 cout << node1.print();
 
 	if (printFile(argv[2], inputs, outputs, wires, nodes)) return 0;
 

@@ -290,7 +290,10 @@ bool printFile(string outFile, vector<wire> &inputs, vector<wire> &outputs, vect
 	outFile.pop_back();
 
 	out << "module " << outFile << " ( ";
+
 	vector<wire>::iterator wireIt;
+	vector<node>::iterator nodeIt;
+
 	for (wireIt = inputs.begin();wireIt != inputs.end();wireIt++){
 		out << wireIt->getName() << ", ";
 	}
@@ -332,6 +335,10 @@ bool printFile(string outFile, vector<wire> &inputs, vector<wire> &outputs, vect
 			if(wireIt->getSize() != 1) out << "[" << wireIt->getSize()-1 << ":0] ";
 
 			out << wireIt->getName() << ";\n";
+	}
+
+	for (nodeIt = nodes.begin();nodeIt!=nodes.end();nodeIt++){
+		out << nodeIt->print();
 	}
 
 	out << "\nendmodule";
