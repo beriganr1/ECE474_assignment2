@@ -21,10 +21,28 @@ int main (int argc, char *argv[]){
 
 	 // wire (string name, int size, bool sign);
 	 wire a("a",8,false);
+	 wire b("b",8,false);
+	 wire c_reg("c_reg",8,false);
+	 wire c("c",8,false);
+
 	 inputs.push_back(a);
-	 inputs.push_back(wire("b",8,false));
-	 wires.push_back(wire("c_reg",8,false));
-	 outputs.push_back(wire("c",8,false));
+	 inputs.push_back(b);
+	 wires.push_back(c_reg);
+	 outputs.push_back(c);
+
+	 Adder node1("Adder1", false);
+	 Register reg1("Reg1",false);
+
+	 //  void addInput(wire newWire);
+	 //  void addOutput(wire newWire);
+	 node1.addInput(a);
+	 node1.addInput(b);
+	 node1.addOutput(c_reg);
+	 reg1.addInput(c_reg);
+	 reg1.addOutput(c);
+
+	 nodes.push_back(node1);
+	 nodes.push_back(reg1);
 
 
 	if (printFile(argv[2], inputs, outputs, wires, nodes)) return 0;

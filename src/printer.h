@@ -287,18 +287,54 @@ bool printFile(string outFile, vector<wire> &inputs, vector<wire> &outputs, vect
 	out.open(outFile);
 
 	outFile.pop_back();
+	outFile.pop_back();
+
 	out << "module " << outFile << " ( ";
-	vector<wire>::iterator it;
-	for (it = inputs.begin();it != inputs.end();it++){
-		out << it->getName() << ", ";
+	vector<wire>::iterator wireIt;
+	for (wireIt = inputs.begin();wireIt != inputs.end();wireIt++){
+		out << wireIt->getName() << ", ";
 	}
-	for (it = outputs.begin();it!=outputs.end(); it++){
-		out << it->getName();
-		if(it != --outputs.end()) out << ", ";
+	for (wireIt = outputs.begin();wireIt!=outputs.end(); wireIt++){
+		out << wireIt->getName();
+		if(wireIt != --outputs.end()) out << ", ";
 	}
-	out << ");";
+	out << ");\n";
 
+	for (wireIt = inputs.begin();wireIt!=inputs.end();wireIt++){
+		out << "\tinput ";
 
+		if(wireIt->getSign()) out << "signed ";
+
+		if(wireIt->getSize() != 1) out << "[" << wireIt->getSize()-1 << ":0] ";
+
+		out << wireIt->getName() << ";\n";
+	}
+
+	out << "\n";
+
+	for (wireIt = outputs.begin();wireIt!=outputs.end();wireIt++){
+		out << "\toutput ";
+
+		if(wireIt->getSign()) out << "signed ";
+
+		if(wireIt->getSize() != 1) out << "[" << wireIt->getSize()-1 << ":0] ";
+
+		out << wireIt->getName() << ";\n";
+	}
+
+	out << "\n";
+
+	for (wireIt = wires.begin();wireIt!=wires.end();wireIt++){
+			out << "\twire ";
+
+			if(wireIt->getSign()) out << "signed ";
+
+			if(wireIt->getSize() != 1) out << "[" << wireIt->getSize()-1 << ":0] ";
+
+			out << wireIt->getName() << ";\n";
+	}
+
+	out << "\nendmodule";
 	out.close();
 	return true;
 }
