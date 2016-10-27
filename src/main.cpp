@@ -13,7 +13,6 @@ int main (int argc, char *argv[]){
 	}
 
 //  if (parseFile(argv[1], argv[2])) return 0;
-//this is a test line of code
 
   return -1;
 }
