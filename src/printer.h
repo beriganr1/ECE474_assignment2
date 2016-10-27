@@ -294,7 +294,7 @@ bool printFile(string outFile, vector<wire> &inputs, vector<wire> &outputs, vect
 	}
 	for (it = outputs.begin();it!=outputs.end(); it++){
 		out << it->getName();
-		if(it != outputs.end()) out << ", ";
+		if(it != --outputs.end()) out << ", ";
 	}
 	out << ");";
 
