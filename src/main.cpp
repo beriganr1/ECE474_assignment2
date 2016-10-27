@@ -12,7 +12,7 @@ int main (int argc, char *argv[]){
 		return -1;
 	}
 
-  if (parseFile(argv[1], argv[2])) return 0;
+//  if (parseFile(argv[1], argv[2])) return 0;
 
   return -1;
 }
