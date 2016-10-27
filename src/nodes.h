@@ -28,6 +28,7 @@ public:
   void addInput(wire newWire);
   void addOutput(wire newWire);
   void printWires();
+  int getWireSize();
   int getInputNum();
   int getOutputNum();
     string getName();
@@ -80,6 +81,12 @@ node :: addOutput(wire newWire)
   {
     if (it->getSize() > sizeOfWires) sizeOfWires = it->getSize();
   }
+}
+
+int
+node :: getWireSize()
+{
+   return this->sizeOfWires;
 }
 
 void
@@ -136,7 +143,7 @@ Adder :: print()
   
   if( this->sign) output = "S";
 
-  output = "ADD #(" + this->sizeOfWires + ") " + this->name + " (" + this->inputs[0].getName() + ", " + this->inputs[1].getName() + ", " + this->outputs[0].getName() + ");\n";
+  output += "ADD #(" + this->getWireSize() + string(") ") + this->name + " (" + this->inputs[0].getName() + ", " + this->inputs[1].getName() + ", " + this->outputs[0].getName() + ");\n";
 
   return output;
 }
@@ -172,7 +179,7 @@ Subtractor :: print()
 
   if( this->sign) output = "S";
 
-  output = "SUB #(" + this->sizeOfWires + ") " + this->name + " (" + this->inputs[0].getName() + ", " + this->inputs[1].getName() + ", " + this->outputs[0].getName() + ");\n";
+  output += "SUB #(" + this->getWireSize() + string(") ") + this->name + " (" + this->inputs[0].getName() + ", " + this->inputs[1].getName() + ", " + this->outputs[0].getName() + ");\n";
 
   return output;
 }
@@ -208,7 +215,7 @@ Multiplier :: print()
 
   if( this->sign) output = "S";
 
-  output += "MUL #(" + this->sizeOfWires + ") " + this->name + " (" + this->inputs[0].getName() + ", " + this->inputs[1].getName() + ", " + this->outputs[0].getName() + ");\n";
+  output += "MUL #(" + this->getWireSize() + string(") ") + this->name + " (" + this->inputs[0].getName() + ", " + this->inputs[1].getName() + ", " + this->outputs[0].getName() + ");\n";
 
   return output;
 }
@@ -246,7 +253,7 @@ Register :: print()
     
     if( this->sign) output = "S";
     
-    output = "REG #(" + this->sizeOfWires + ") " + this->name + " (" + this->inputs[0].getName() + ", " + ".Clk(Clk)" + ", " + ".Rst(Rst)" + ", " + this->inputs[0].getName() + ");\n";
+    output += "REG #(" + this->getWireSize() + string(") ") + this->name + " (" + this->inputs[0].getName() + ", " + ".Clk(Clk)" + ", " + ".Rst(Rst)" + ", " + this->inputs[0].getName() + ");\n";
     
     return output;
 }
@@ -283,7 +290,7 @@ Comparator :: print()
     
     if( this->sign) output = "S";
     
-    output = "COMP #(" + this->sizeOfWires + ") " + this->name + " (" + this->inputs[0].getName() + ", " + this->inputs[1].getName() + ", " + this->outputs[0].getName() + ", " + this->outputs[1].getName() + ", " + this->outputs[2].getName() + ");\n";
+    output += "COMP #(" + this->getWireSize() + string(") ") + this->name + " (" + this->inputs[0].getName() + ", " + this->inputs[1].getName() + ", " + this->outputs[0].getName() + ", " + this->outputs[1].getName() + ", " + this->outputs[2].getName() + ");\n";
     
     return output;
 }
@@ -320,7 +327,7 @@ ShiftLeft :: print()
     
     if( this->sign) output = "S";
     
-    output = "SHL #(" + this->sizeOfWires + ") " + this->name + " (" + this->inputs[0].getName() + ", " + this->inputs[1].getName() + ", " + this->outputs[0].getName() + ");\n";
+    output += "SHL #(" + this->getWireSize() + string(") ") + this->name + " (" + this->inputs[0].getName() + ", " + this->inputs[1].getName() + ", " + this->outputs[0].getName() + ");\n";
     
     return output;
 }
@@ -357,7 +364,7 @@ ShiftRight :: print()
     
     if( this->sign) output = "S";
     
-    output = "SHR #(" + this->sizeOfWires + ") " + this->name + " (" + this->inputs[0].getName() + ", " + this->inputs[1].getName() + ", " + this->outputs[0].getName() + ");\n";
+    output += "SHR #(" + this->getWireSize() + string(") ") + this->name + " (" + this->inputs[0].getName() + ", " + this->inputs[1].getName() + ", " + this->outputs[0].getName() + ");\n";
     
     return output;
 }
@@ -394,7 +401,7 @@ MUX2x1 :: print()
     
     if( this->sign) output = "S";
     
-    output = "MUX2x1 #(" + this->sizeOfWires + ") " + this->name + " (" + this->inputs[0].getName() + ", " + this->inputs[1].getName() + ", " + this->outputs[0].getName() + ");\n";
+    output += "MUX2x1 #(" + this->getWireSize() + string(") ") + this->name + " (" + this->inputs[0].getName() + ", " + this->inputs[1].getName() + ", " + this->outputs[0].getName() + ");\n";
     
     return output;
 }
