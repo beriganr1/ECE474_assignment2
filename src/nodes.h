@@ -143,7 +143,7 @@ Adder :: print()
   
   if( this->sign) output = string("S");
 
-  output += string("ADD #(") + this->getWireSize() + string(") ") + this->name + " (" + this->inputs[0].getName() + ", " + this->inputs[1].getName() + ", " + this->outputs[0].getName() + ");\n";
+  output += "ADD #(" + this->getWireSize() + string(") ") + this->name + " (" + this->inputs[0].getName() + ", " + this->inputs[1].getName() + ", " + this->outputs[0].getName() + ");\n";
 
   return output;
 }

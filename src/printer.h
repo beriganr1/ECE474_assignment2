@@ -20,31 +20,44 @@ using namespace std;
 
 bool parseFile(string inputFile, string outputFile)
 {
+  ofstream out;
   ifstream inFile(inputFile);
   string line;
   vector<wire> inputs;
   vector<wire> outputs;
   vector<wire> wires;
   vector<node> nodes;
+  int nodeNum = 0;
 
+  out.open(outputFile);
 
   if(inFile.is_open())
   {
 	  while ( getline (inFile, line))
 	  {
-          cout << line << endl;
+            //cout << line << endl;
+
 		  istringstream ss(line);
+
 		  string key;
 
-		  ss >> key;
+          //cout << key << endl;
+
+          ss >> key;
+
+
 		  if (key == "input")
 		  {
+              cout << key << endl;
 			  string type;
 			  bool sign;
 			  int size;
 			  string name;
 
-			  ss >> type;
+              ss >> type;
+
+              cout << type << endl;
+
 			  if (type == "Int1")
 			  {
 				  sign = true;
@@ -184,10 +197,9 @@ bool parseFile(string inputFile, string outputFile)
 			  while (ss >> name){
 				  if(name.find(',') != string::npos) name.pop_back();
 
-                  wire wire_out(name,size,sign);
+                  wire wire_temp(name,size,sign);
                   Register reg_temp(name,sign);
-                  reg_temp.addOutput(wire_out);
-                  outputs.push_back(wire_out);
+                  outputs.push_back(wire_temp);
                   nodes.push_back(reg_temp);
 			  }
 		  }
@@ -266,6 +278,128 @@ bool parseFile(string inputFile, string outputFile)
 				  wires.push_back(wire(name, size, sign));
 			  }
 		  }
+          //cout << line << endl;
+
+          string output1 = key;
+          string equals;
+          string input1;
+
+          if(ss.good()){
+              ss >> equals;
+              ss >> input1;
+
+              if(!ss.good())
+              {
+                  cout << output1 + " = " << endl;
+              // create register
+              }
+
+              else{
+
+                  string input2;
+                  string operation;
+
+                  ss >> operation;
+                  ss >> input2;
+
+                  if (operation == "+")
+                  {
+                      bool checkedSignWire = 0;
+                      bool checkedSignInput = 0;
+                      bool wireSign1 = 0;
+                      bool wireSign2 = 0;
+                      bool wireSign3 = 0;
+                      bool wireSign4 = 0;
+
+                      for(std::vector<wire> ::iterator it = wires.begin(); it != wires.end(); ++it)
+                      {
+
+                          if(it->getName() == input1)
+                          {
+                              wireSign1 = it->getSign();
+                          }
+
+                          if(it->getName() == input2)
+                          {
+                              wireSign2 = it->getSign();
+                          }
+
+                          checkedSignWire = 1;
+                      }
+
+                      for(std::vector<wire> ::iterator it = inputs.begin(); it != inputs.end(); ++it)
+                      {
+
+                          if(it->getName() == input1)
+                          {
+                              wireSign1 = it->getSign();
+                          }
+
+                          if(it->getName() == input2)
+                          {
+                              wireSign2 = it->getSign();
+                          }
+                          checkedSignWire = 1;
+                      }
+
+
+                      if(checkedSignWire == 1 && wireSign1 == wireSign2)
+                      {
+                          string addString = "add" + std:: to_string(nodeNum);
+                          Adder add(addString, wireSign1);
+                          nodes.push_back(add);
+
+                      }
+
+                      else if(checkedSignInput == 1 && wireSign3 == wireSign4)
+                      {
+                          string addString = "add" + std:: to_string(nodeNum);
+                          Adder add(addString, wireSign1);
+                          nodes.push_back(add);
+                      }
+
+                      cout << output1 + " = " + input1 + " + " + input2 << endl;
+                  }
+
+                  else if (operation == "-")
+                  {
+                      cout << output1 + " = " + input1 + " - " + input2 << endl;
+
+                  }
+
+                  else if (operation == "*")
+                  {
+                      cout << output1 + " = " + input1 + " * " + input2 << endl;
+
+                  }
+
+                  else if (operation == "<" || operation == ">" || operation == "==")
+                  {
+                      cout << output1 + " = " + input1 + " == " + input2 << endl;
+
+                  }
+
+                  else if (operation == "?")
+                  {
+                      string input3;
+                      ss >> input3;
+                      ss >> input3;
+                      cout << output1 + " = " + input1 + " ? " + input2 + " : " + input3 << endl;
+
+                  }
+
+                  else if (operation == "<<")
+                  {
+                      cout << output1 + " = " + input1 + " << " + input2 << endl;
+                  }
+
+                  else if (operation == ">>")
+                  {
+                      cout << output1 + " = " + input1 + " >> " + input2 << endl;
+                  }
+
+              }
+          }
 	  }
 	  inFile.close();
   }
@@ -275,8 +409,26 @@ bool parseFile(string inputFile, string outputFile)
 	  return false;
   }
 
-    cout << "working here" << endl;
+   // cout << "working here" << endl;
 
+  cout << "inputs : " << "\n";
+  for(vector<wire>::iterator it = inputs.begin(); it != inputs.end(); it++)
+  {
+	  cout << it->getName() << " "<< it->getSize() << " " << it->getSign() << "\n";
+  }
+  cout << "outputs : \n";
+  for(vector<wire>::iterator it = outputs.begin(); it != outputs.end(); it++)
+  {
+    cout << it->getName() << " " << it->getSize() << " " << it->getSign() << "\n";
+  }
+  cout << "wires : \n";
+    for(vector<wire>::iterator it = wires.begin(); it != wires.end(); it++)
+    {
+      cout << it->getName() << " " << it->getSize() << " " << it->getSign() << "\n";
+    }
+
+
+  out.close();
 
   return true;
 }
