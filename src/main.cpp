@@ -17,7 +17,7 @@ int main (int argc, char *argv[]){
 	 vector<wire> inputs;
 	 vector<wire> outputs;
 	 vector<wire> wires;
-	 vector<node> nodes;
+	 vector<node*> nodes;
 
 	 // wire (string name, int size, bool sign);
 	 wire a("a",8,false);
@@ -30,22 +30,45 @@ int main (int argc, char *argv[]){
 	 wires.push_back(c_reg);
 	 outputs.push_back(c);
 
-	 Adder node1("Adder1", false);
-	 Register reg1("Reg1",false);
+	 node *node1 = new Adder("Adder1", false);
 
-	 //  void addInput(wire newWire);
-	 //  void addOutput(wire newWire);
-	 node1.addInput(a);
-	 node1.addInput(b);
-	 node1.addOutput(c_reg);
-	 reg1.addInput(c_reg);
-	 reg1.addOutput(c);
+	 node1->addInput(a);
+	 node1->addInput(b);
+	 node1->addOutput(c_reg);
 
 	 nodes.push_back(node1);
-	 nodes.push_back(reg1);
-	 cout << node1.print();
+	 node1 = new Subtractor("Sub1", false);
 
-	if (printFile(argv[2], inputs, outputs, wires, nodes)) return 0;
+	 node1->addInput(a);
+	 node1->addInput(b);
+	 node1->addOutput(c_reg);
+
+	 nodes.push_back(node1);
+
+	 node1 = new Multiplier("Mul1", false);
+
+	 node1->addInput(a);
+	 node1->addInput(b);
+	 node1->addOutput(c_reg);
+
+	 nodes.push_back(node1);
+
+	 node1 = new ShiftRight("SHR1", true);
+
+	 node1->addInput(a);
+	 node1->addInput(b);
+	 node1->addOutput(c);
+
+	 nodes.push_back(node1);
+
+	 Register *reg1 = new Register("Reg1",false);
+
+	 reg1->addInput(c_reg);
+	 reg1->addOutput(c);
+
+	 nodes.push_back(reg1);
+
+	 if (printFile(argv[2], inputs, outputs, wires, nodes)) return 0;
 
 //  return -1;
 }

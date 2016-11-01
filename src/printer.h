@@ -433,7 +433,7 @@ bool parseFile(string inputFile, string outputFile)
   return true;
 }
 
-bool printFile(string outFile, vector<wire> &inputs, vector<wire> &outputs, vector<wire> &wires, vector<node> &nodes)
+bool printFile(string outFile, vector<wire> &inputs, vector<wire> &outputs, vector<wire> &wires, vector<node*> &nodes)
 {
 	ofstream out;
 	out.open(outFile);
@@ -489,8 +489,10 @@ bool printFile(string outFile, vector<wire> &inputs, vector<wire> &outputs, vect
 			out << wireIt->getName() << ";\n";
 	}
 
-	for (nodeIt = nodes.begin();nodeIt!=nodes.end();nodeIt++){
-		out << nodeIt->print();
+	out << "\n";
+
+	for (int i = 0;i< nodes.size();i++){
+		out << "\t" << nodes.at(i)->print() << endl;
 	}
 
 	out << "\nendmodule";
